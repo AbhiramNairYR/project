@@ -20,6 +20,8 @@ c.execute('''CREATE TABLE IF NOT EXISTS books
 
 # Sample data insertion
 c.execute("INSERT INTO books (title, book_type, summary) VALUES ('Animals Encyclopedia', 'Encyclopedia', 'Info on animals')")
+c.execute("INSERT INTO books (title, book_type, summary) VALUES ('Game Of Thrones', 'Fantasy Novel', 'High Fantasy')")
+c.execute("INSERT INTO books (title, book_type, summary) VALUES ('English Litrature', 'Educational', 'Text book of english')")
 
 conn.commit()
 
@@ -75,11 +77,26 @@ while True:
         screen.blit(library_surface, (0, 0))
 
         if text:
-            # Query SQLite database to retrieve book information
-            c.execute("SELECT * FROM books WHERE title='Animals Encyclopedia'")
-            book_info = c.fetchone()
-            if book_info:
-                display_text(f'Book: {book_info[1]} Type: {book_info[2]} Summary: {book_info[3]}')
+            if player_rectangle.y > 250:
+                # Query SQLite database to retrieve book information
+                c.execute("SELECT * FROM books WHERE title='Animals Encyclopedia'")
+                book_info = c.fetchone()
+                if book_info:
+                    display_text(f'Book: {book_info[1]} Type: {book_info[2]} Summary: {book_info[3]}')
+
+            elif player_rectangle.y < 100:
+                # Query SQLite database to retrieve book information
+                c.execute("SELECT * FROM books WHERE title='English Litrature'")
+                book_info = c.fetchone()
+                if book_info:
+                    display_text(f'Book: {book_info[1]} Type: {book_info[2]} Summary: {book_info[3]}')
+
+            else :
+                # Query SQLite database to retrieve book information
+                c.execute("SELECT * FROM books WHERE title='Game Of Thrones'")
+                book_info = c.fetchone()
+                if book_info:
+                    display_text(f'Book: {book_info[1]} Type: {book_info[2]} Summary: {book_info[3]}')
 
         # Boundaries
         if player_rectangle.left < 0:
