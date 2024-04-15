@@ -2,6 +2,7 @@ import pygame
 from sys import exit
 import sqlite3
 
+#initialze pygames
 pygame.init()
 screen = pygame.display.set_mode((575, 425))
 pygame.display.set_caption('2D Library')
@@ -25,21 +26,23 @@ c.execute("INSERT INTO books (title, book_type, summary) VALUES ('English Litrat
 
 conn.commit()
 
+#library
 library_surface = pygame.image.load('pygame_file/libreary1.png').convert()
 
+#player initialize
 player_surface = pygame.image.load('pygame_file/Player_Downsprite1.png').convert_alpha()
 player_surface = pygame.transform.rotozoom(player_surface,0,1.3)
 player_rectangle = player_surface.get_rect(midbottom=(80, 425))
-player_speed = 10
+player_speed = 25
 
 # Function to display text
 text = False
 def display_text(str):
     text_surface = test_font.render(str,False,'white','black')  # White color
     text_surface = pygame.transform.rotozoom(text_surface, 0, 0.25)
-    screen.blit(text_surface, (100,100))
+    screen.blit(text_surface, (100,10))
 
-
+#loop to run game
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -47,6 +50,7 @@ while True:
             exit()
 
         if game_active:
+            #player intractions
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     player_rectangle.y -= player_speed
@@ -77,28 +81,27 @@ while True:
         screen.blit(library_surface, (0, 0))
 
         if text:
-            if player_rectangle.y > 250:
                 # Query SQLite database to retrieve book information
+                
+            if player_rectangle.y > 250:
                 c.execute("SELECT * FROM books WHERE title='Animals Encyclopedia'")
                 book_info = c.fetchone()
                 if book_info:
                     display_text(f'Book: {book_info[1]} Type: {book_info[2]} Summary: {book_info[3]}')
 
             elif player_rectangle.y < 100:
-                # Query SQLite database to retrieve book information
                 c.execute("SELECT * FROM books WHERE title='English Litrature'")
                 book_info = c.fetchone()
                 if book_info:
                     display_text(f'Book: {book_info[1]} Type: {book_info[2]} Summary: {book_info[3]}')
 
             else :
-                # Query SQLite database to retrieve book information
                 c.execute("SELECT * FROM books WHERE title='Game Of Thrones'")
                 book_info = c.fetchone()
                 if book_info:
                     display_text(f'Book: {book_info[1]} Type: {book_info[2]} Summary: {book_info[3]}')
 
-        # Boundaries
+        # Boundaries for movement
         if player_rectangle.left < 0:
             player_rectangle.left = 0
         elif player_rectangle.right > screen.get_width():
