@@ -30,7 +30,7 @@ conn.commit()
 library_surface = pygame.image.load('pygame_file/libreary1.png').convert()
 
 #player initialize
-player_surface = pygame.image.load('pygame_file/Player_Downsprite1.png').convert_alpha()
+player_surface = pygame.image.load('pygame_file/Player_UPsprite1.png').convert_alpha()
 player_surface = pygame.transform.rotozoom(player_surface,0,1.3)
 player_rectangle = player_surface.get_rect(midbottom=(80, 425))
 player_speed = 25
@@ -82,7 +82,7 @@ while True:
 
         if text:
                 # Query SQLite database to retrieve book information
-                
+
             if player_rectangle.y > 250:
                 c.execute("SELECT * FROM books WHERE title='Animals Encyclopedia'")
                 book_info = c.fetchone()
